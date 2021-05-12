@@ -11,20 +11,20 @@
 
 <body>
     <header>
-        <h1>drum Machine</h1>
+        <h1>Drum Machine</h1>
     </header>
     <div class="keys">
-        <h2>Drum Pad 808</h2>
+        <h2>808</h2>
         <div class="key-container">
             <div data-key="65" class="key "><span><kbd>A</kbd><img src="./icons/clap.png" alt="" class='icons'></span></div>
             <div data-key="83" class="key"><span><kbd>S</kbd><img src="./icons/hats.png" alt="" class='icons'></span></div>
             <div data-key="68" class="key"><span><kbd>D</kbd><img src="./icons/kick.png" alt="" class='icons'></span></div>
             <div data-key="70" class="key"><span><kbd>F</kbd><img src="./icons/cymbals.png" alt="" class='icons'></span></div>
-            <div data-key="71" class="key"><span><kbd>G</kbd><img src="./icons/drum.png" alt="" class='icons'></span></div>
-            <div data-key="72" class="key"><span><kbd>H</kbd><img src="./icons/drum.png" alt="" class='icons'></span></div>
+            <div data-key="71" class="key"><span><kbd>G</kbd><img src="./icons/808.png" alt="" class='icons'></span></div>
+            <div data-key="72" class="key"><span><kbd>H</kbd><img src="./icons/ride.png" alt="" class='icons'></span></div>
             <div data-key="74" class="key"><span><kbd>J</kbd><img src="./icons/drum.png" alt="" class='icons'></span></div>
-            <div data-key="75" class="key"><span><kbd>K</kbd><img src="./icons/drum.png" alt="" class='icons'></span></div>
-            <div data-key="76" class="key"><span><kbd>L</kbd><img src="./icons/drum.png" alt="" class='icons'></span></div>
+            <div data-key="75" class="key"><span><kbd>K</kbd><img src="./icons/tom.png" alt="" class='icons'></span></div>
+            <div data-key="76" class="key"><span><kbd>L</kbd><img src="./icons/percussion.png" alt="" class='icons'></span></div>
         </div>
     </div>
     <!--To import audio for the drum machine -->
@@ -39,7 +39,9 @@
     <audio data-key="76" src="sounds/tink.wav"></audio>
 
     <script>
-        window.addEventListener('keydown', function(e) {
+        window.addEventListener('keydown', playSound)
+
+        function playSound(e) {
             console.log(e.keyCode);
 
             const audio = document.querySelector(`audio[data-key='${e.keyCode}']`)
@@ -50,7 +52,7 @@
             audio.currentTime = 0;
             audio.play();
             key.classList.add('playing')
-        });
+        };
 
         const keys = document.querySelectorAll('.key');
         keys.forEach(key => key.addEventListener('transitionend', removeTransition));

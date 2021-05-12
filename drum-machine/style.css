@@ -18,9 +18,10 @@ body {
 
 header {
     text-align: center;
+    display: block;
     font-size: 2rem;
     color: white;
-    letter-spacing: 0.6rem;
+    letter-spacing: 0.2rem;
 }
 
 span {
@@ -36,6 +37,32 @@ img {
     height: 42px;
     width: 42px;
     align-self: center;
+}
+
+h1::before {
+    display: inline-block;
+    content: "";
+    height: 1px;
+    width: 500px;
+    background-color: white;
+}
+
+h1 {
+    position: relative;
+    display: inline-block;
+    font-weight: 500;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+h1::after {
+    display: inline-block;
+    content: "";
+    height: 1px;
+    width: 500px;
+    background-color: white;
 }
 
 h2 {
@@ -75,12 +102,13 @@ h2 {
 .key {
     background-color: #64ffda;
     border-radius: 12px;
-    transition: all 0.07s;
+    transition: all 0.09s;
+    border: 1px transparent #333;
 }
 
 .playing {
     transform: scale(1.1);
     border-color: #CC00FF;
-    box-shadow: 0 0 10px #CC00FF;
+    box-shadow: 0 0 15px #CC00FF;
     border: 1px transparent #CC00FF;
 }
