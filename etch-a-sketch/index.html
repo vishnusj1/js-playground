@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etch-a-sketch</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <h1>Etch-a-sketch</h1>
+    </header>
+    <main>
+        <div class="wrapper">
+            <div class="controls">
+                <label for="pen-color">Pen Color</label>
+                <input type="color" name="pen-color">
+                <label for="background-color">Background Color</label>
+                <input type="color" name="background-color">
+                <label for="color-fill"></label>
+                <input type="button" value="Color Fill" name="color-fill">
+                <label for="color-grabber"></label>
+                <input type="button" value="Color Grabber" name="color-grabber">
+                <label for="eraser"></label>
+                <input type="button" value="Eraser" name="eraser">
+                <label for="rainbow"></label>
+                <input type="button" value="Rainbow" name="rainbow">
+                <label for="shading"></label>
+                <input type="button" value="Shading" name="shading">
+                <label for="lighten"></label>
+                <input type="button" value="Lighten" name="lighten">
+                <label for="grid-size"></label>
+                <input type="range" value="Grid-size" name="grid-size" min="10" max="25" class="range-slider">
+                <label for="grid-lines"></label>
+                <input type="button" value="Grid Lines" name="grid-lines">
+                <label for="clear-grid"></label>
+                <input type="button" value="Clear Grid" name="clear-grid" id="clear-button">
+            </div>
+            <div class="grid-container">
+
+            </div>
+
+        </div>
+    </main>
+    <script src="script.js"></script>
+</body>
+
+</html>

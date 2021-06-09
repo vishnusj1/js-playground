@@ -1,0 +1,60 @@
+:root {
+    --primary-color: #0a192f;
+    --secondary-color: #01FFF4;
+    --pink: #FF1178;
+    --green: #7CFF01;
+    --yellow: #FFF205;
+}
+
+*,
+*::after,
+*::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    overflow-x: hidden;
+}
+
+body {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+}
+
+main {
+    height: 100vh;
+}
+
+header {
+    text-align: center;
+}
+
+.wrapper {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.controls {
+    width: 100vw;
+    height: 100px;
+    margin-bottom: 25px;
+}
+
+.grid-container {
+    display: grid;
+    height: 500px;
+    width: 500px;
+    background-color: var(--secondary-color);
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+.gridItem {
+    background-color: white;
+    border: 1px solid #333;
+}
