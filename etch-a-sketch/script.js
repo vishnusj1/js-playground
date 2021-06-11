@@ -2,6 +2,16 @@ const gridContainer = document.querySelector('.grid-container');
 const controlContainer = document.querySelector('.controls');
 const buttons = controlContainer.querySelectorAll('button')
 let gridSize = 16;
+let ink = '#000000';
+let bgColor = '#ffffff';
+let draw = false;
+let eraser = false;
+let rainbow = false;
+let shading = false;
+let lighten = false;
+let gridBorder = false;
+
+createGrids(gridSize)
 
 function createGrids(gridSize) {
 
@@ -21,62 +31,163 @@ function createGrids(gridSize) {
     gridPixels.forEach(gridPixel => gridPixel.addEventListener('mouseenter', sketch))
     gridPixels.forEach(gridPixel => gridPixel.addEventListener('mouseup', () => draw = false))
     gridContainer.addEventListener('mouseleave', () => draw = false)
+
 }
-createGrids(gridSize)
 
 // Color-grid by clicking or holding and drawing 
-let ink = '#000000';
-let draw = false;
-
 function sketch(e) {
     if (!draw) return;
-    e.target.style.backgroundColor = ink;
+    if (eraser) {
+        e.target.style.backgroundColor = '';
+    } else if (rainbow) {
+        e.target.style.backgroundColor = randomColor();
+
+    } else if (shading) {
+        e.target.style.backgroundColor = adjust(RGBToHex, e.target.style.backgroundColor, -15);
+    } else if (lighten) {
+        e.target.style.backgroundColor = adjust(RGBToHex, e.target.style.backgroundColor, +15);
+
+    } else {
+        e.target.style.backgroundColor = ink;
+    }
 }
 
+//Color Grid on click
 function sketchClick(e) {
 
-    e.target.style.backgroundColor = ink;
+    if (eraser) {
+        e.target.style.backgroundColor = '';
+        console.log(e.target.style.backgroundColor);
+    } else if (rainbow) {
+        e.target.style.backgroundColor = randomColor();
+
+    } else if (shading) {
+        e.target.style.backgroundColor = adjust(RGBToHex, e.target.style.backgroundColor, -15);
+
+    } else if (lighten) {
+        e.target.style.backgroundColor = adjust(RGBToHex, e.target.style.backgroundColor, +15);
+
+    } else {
+        e.target.style.backgroundColor = ink;
+    }
 }
 // const gridPixels = gridContainer.querySelectorAll('div')
 // gridPixels.forEach(gridPixel => gridPixel.addEventListener('mousedown', sketchClick))
-
 // gridPixels.forEach(gridPixel => gridPixel.addEventListener('mousedown', () => draw = true))
 // gridPixels.forEach(gridPixel => gridPixel.addEventListener('mouseenter', sketch))
 // gridPixels.forEach(gridPixel => gridPixel.addEventListener('mouseup', () => draw = false))
 // gridContainer.addEventListener('mouseleave', () => draw = false)
 
+
+//Eraser - Tool 
+const eraserButton = document.getElementById('eraser') //Eraser Tool
+eraserButton.addEventListener('click', () => {
+    eraser = !eraser;
+    eraserButton.classList.toggle('toggle-on')
+    console.log('Eraser', eraser);
+    if (rainbow) {
+        rainbow = !rainbow;
+        rainbowButton.classList.toggle('toggle-on');
+    }
+    if (shading) {
+        shading = !shading;
+        shadingButton.classList.toggle('toggle-on');
+    }
+})
+
+const rainbowButton = document.getElementById('rainbow')
+rainbowButton.addEventListener('click', () => {
+    rainbow = !rainbow;
+    rainbowButton.classList.toggle('toggle-on');
+    console.log('Rainbow', rainbow);
+
+    if (eraser) {
+        eraser = !eraser;
+        eraserButton.classList.toggle('toggle-on');
+    }
+    if (shading) {
+        shading = !shading;
+        shadingButton.classList.toggle('toggle-on');
+    }
+    if (lighten) {
+        lighten = !lighten;
+        lightenButton.classList.toggle('toggle-on');
+    }
+})
+const shadingButton = document.getElementById('shading')
+shadingButton.addEventListener('click', () => {
+    shading = !shading;
+    shadingButton.classList.toggle('toggle-on');
+    console.log('shading', shading);
+
+    if (eraser) {
+        eraser = !eraser;
+        eraserButton.classList.toggle('toggle-on');
+    }
+    if (rainbow) {
+        rainbow = !rainbow;
+        rainbowButton.classList.toggle('toggle-on');
+    }
+    if (lighten) {
+        lighten = !lighten;
+        lightenButton.classList.toggle('toggle-on');
+    }
+})
+const lightenButton = document.getElementById('lighten')
+lightenButton.addEventListener('click', () => {
+    lighten = !lighten;
+    lightenButton.classList.toggle('toggle-on');
+    console.log('lighten', lighten);
+
+    if (eraser) {
+        eraser = !eraser;
+        eraserButton.classList.toggle('toggle-on');
+    }
+    if (rainbow) {
+        rainbow = !rainbow;
+        rainbowButton.classList.toggle('toggle-on');
+    }
+    if (shading) {
+        shading = !shading;
+        shadingButton.classList.toggle('toggle-on');
+    }
+
+})
+
 //Change Grid Size
+const gridSizeControls = controlContainer.querySelectorAll('.range-slider')
+gridSizeControls.forEach(gridSizeControl => gridSizeControl.addEventListener('change', handleGridSize))
+    //function
 function handleGridSize() {
     gridSize = parseInt(this.value);
     deleteGrid()
     createGrids(gridSize)
-
 }
-
-const gridSizeControls = controlContainer.querySelectorAll('.range-slider')
-gridSizeControls.forEach(gridSizeControl => gridSizeControl.addEventListener('change', handleGridSize))
 
 //Clear Grid
-function clearGrid(e) {
-    const gridPixels = gridContainer.querySelectorAll('div')
-    gridPixels.forEach(gridPixel => {
-        gridPixel.style.backgroundColor = 'white';
-    })
-    console.log(e);
-}
 const clearButton = document.getElementById('clear-button')
 clearButton.addEventListener('click', clearGrid)
 
+function clearGrid(e) {
+
+    const gridPixels = gridContainer.querySelectorAll('div')
+    gridPixels.forEach(gridPixel => {
+        gridPixel.style.backgroundColor = '';
+    })
+    console.log(e);
+}
+
 //  Toggle Grid Lines
-function toggleGridLine(e) {
+const gridToggle = document.getElementById('toggleGrid')
+gridToggle.addEventListener('click', toggleGridLine)
+    //function
+function toggleGridLine() {
     gridToggle.classList.toggle('toggle-on')
     const gridPixels = gridContainer.querySelectorAll('div')
     gridPixels.forEach(gridPixel => {
         gridPixel.classList.toggle('borderTopLeft')
     })
 }
-const gridToggle = document.getElementById('toggleGrid')
-gridToggle.addEventListener('click', toggleGridLine)
 
 //  Delete Grid - Used to reintialise grid after changing grid size.
 function deleteGrid() {
@@ -89,23 +200,63 @@ function deleteGrid() {
     }
 }
 
-// Pen Color Picker 
+//Pen Color Picker 
 const colorPicker = document.getElementById('colorPicker');
+//function
 colorPicker.addEventListener('change', (e) => {
     ink = e.target.value;
-
 })
 
 //Background Color Picker
-const bgColor = document.getElementById('bgColor');
-bgColor.addEventListener('change', (e) => {
+const bgColorButton = document.getElementById('bgColor');
+bgColorButton.addEventListener('change', changeBackground)
+    //function
+function changeBackground(e) {
     console.log(e.target);
+    bgColor = e.target.value;
+
     const gridPixels = gridContainer.querySelectorAll('div')
-    gridPixels.forEach(gridPixel => gridPixel.style.backgroundColor = e.target.value)
-})
+    gridPixels.forEach(gridPixel => gridPixel.style.backgroundColor = bgColor)
+}
+//RandomColorGenerator()
+function randomColor() {
+    var randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
+    return randomColor;
+}
 
-const gridContainerWrapper = document.querySelector('.grid-container-wrapper')
+function shade(e) {
+    // e.target.style.backgroundColor = '';
+}
 
-function animateGridContainerWrapper() {
-    setTimeout(() => { gridContainerWrapper.style.boxShadow = "10px 12px var(--secondary-color);" }, 2000);
+function RGBToHex(rgb) {
+    // Choose correct separator
+    let sep = rgb.indexOf(',') > -1 ? ',' : ' ';
+    // Turn "rgb(r,g,b)" into [r,g,b]
+    rgb = rgb.substr(4).split(')')[0].split(sep);
+
+    let r = (+rgb[0]).toString(16),
+        g = (+rgb[1]).toString(16),
+        b = (+rgb[2]).toString(16);
+
+    if (r.length == 1) r = '0' + r;
+    if (g.length == 1) g = '0' + g;
+    if (b.length == 1) b = '0' + b;
+    b = (+rgb[2]).toString(16);
+
+    if (r.length == 1) r = '0' + r;
+    if (g.length == 1) g = '0' + g;
+    if (b.length == 1) b = '0' + b;
+    return '#' + r + g + b;
+}
+// e.target.style.backgroundColor = adjust(RGBToHex, e.target.style.backgroundColor, +15);
+function adjust(RGBToHex, rgb, amount) {
+    let color = RGBToHex(rgb);
+    return (
+        '#' +
+        color
+        .replace(/^#/, '')
+        .replace(/../g, (color) =>
+            ('0' + Math.min(255, Math.max(0, parseInt(color, 16) + amount)).toString(16)).substr(-2)
+        )
+    );
 }
